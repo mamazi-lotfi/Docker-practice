@@ -1,0 +1,9 @@
+data/
+elk/elastic-data/
+
+auth/htpasswd.txt
+nginx/certs/*.key
+nginx/certs/*.crt
+.env
+
+*.logbackups/

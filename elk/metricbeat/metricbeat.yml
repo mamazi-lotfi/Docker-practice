@@ -1,0 +1,50 @@
+metricbeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+metricbeat.modules:
+  # ماژول system: مانیتور کردن خودِ هاست (سرور)
+  - module: system
+    period: 10s
+    metricsets:
+      - cpu
+      - load
+      - memory
+      - network
+      - process
+      - process_summary
+      - socket_summary
+      - filesystem
+      - fsstat
+      - uptime
+    processes: ['.*']
+    process.include_top_n:
+      by_cpu: 5
+      by_memory: 5
+    cpu.metrics: ["percentages", "normalized_percentages"]
+    core.metrics: ["percentages"]
+
+  # ماژول docker: مانیتور کردن کانتینرها
+  - module: docker
+    period: 10s
+    hosts: ["unix:///var/run/docker.sock"]
+    metricsets:
+      - container
+      - cpu
+      - diskio
+      - healthcheck
+      - info
+      - memory
+      - network
+
+setup.kibana:
+  host: "kibana:5601"
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: "elastic"
+  password: "${ELASTIC_PASSWORD}"
+
+processors:
+  - add_host_metadata: ~
+  - add_docker_metadata: ~

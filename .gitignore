@@ -1,9 +1,13 @@
+# ===== داده‌های حجیم (نباید وارد گیت بشن) =====
 data/
 elk/elastic-data/
 
+# ===== فایل‌های حساس و رمزها =====
+.env
 auth/htpasswd.txt
 nginx/certs/*.key
 nginx/certs/*.crt
-.env
 
-*.logbackups/
+# ===== فایل‌های سیستمی/موقت =====
+*.log
+.DS_Store

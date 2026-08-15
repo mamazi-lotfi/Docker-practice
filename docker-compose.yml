@@ -86,3 +86,20 @@ services:
     depends_on:
       - elasticsearch
       - kibana
+
+  filebeat:
+    image: registry.local:443/filebeat:8.15.0
+    container_name: filebeat
+    restart: unless-stopped
+    user: root
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+    volumes:
+      - ./elk/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/log:/hostfs/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: filebeat -e
+    depends_on:
+      - elasticsearch
+      - kibana

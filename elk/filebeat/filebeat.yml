@@ -1,0 +1,28 @@
+filebeat.inputs:
+  # لاگ‌های سیستمی سرور
+  - type: filestream
+    id: system-logs
+    enabled: true
+    paths:
+      - /hostfs/var/log/syslog
+      - /hostfs/var/log/auth.log
+
+  # لاگ‌های کانتینرهای داکر
+  - type: container
+    id: docker-containers
+    enabled: true
+    paths:
+      - /var/lib/docker/containers/*/*.log
+
+processors:
+  - add_docker_metadata:
+      host: "unix:///var/run/docker.sock"
+  - add_host_metadata: ~
+
+setup.kibana:
+  host: "kibana:5601"
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: "elastic"
+  password: "${ELASTIC_PASSWORD}"

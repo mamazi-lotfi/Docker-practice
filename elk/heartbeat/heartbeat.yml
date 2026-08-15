@@ -1,0 +1,29 @@
+heartbeat.monitors:
+  - type: http
+    id: google
+    name: "Google"
+    schedule: '@every 30s'
+    urls: ["https://www.google.com"]
+    check.response.status: [200]
+
+  - type: http
+    id: github
+    name: "GitHub"
+    schedule: '@every 30s'
+    urls: ["https://github.com"]
+    check.response.status: [200]
+
+  - type: http
+    id: my-kibana
+    name: "Kibana (Internal)"
+    schedule: '@every 30s'
+    urls: ["http://kibana:5601"]
+    check.response.status: [200, 302]
+
+setup.kibana:
+  host: "kibana:5601"
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: "elastic"
+  password: "${ELASTIC_PASSWORD}"

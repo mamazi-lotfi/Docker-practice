@@ -103,3 +103,17 @@ services:
     depends_on:
       - elasticsearch
       - kibana
+
+  heartbeat:
+    image: registry.local:443/heartbeat:8.15.0
+    container_name: heartbeat
+    restart: unless-stopped
+    user: root
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+    volumes:
+      - ./elk/heartbeat/heartbeat.yml:/usr/share/heartbeat/heartbeat.yml:ro
+    command: heartbeat -e
+    depends_on:
+      - elasticsearch
+      - kibana

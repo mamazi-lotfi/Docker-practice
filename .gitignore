@@ -11,3 +11,4 @@ nginx/certs/*.crt
 # ===== فایل‌های سیستمی/موقت =====
 *.log
 .DS_Store
+backups/

@@ -14,3 +14,28 @@ Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_2
 Old backups cleaned (older than 7 days)
 Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260816_020001.tar.gz
 Old backups cleaned (older than 7 days)
+Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260817_020001.tar.gz
+Old backups cleaned (older than 7 days)
+Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260818_020001.tar.gz
+Old backups cleaned (older than 7 days)
+Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260828_020001.tar.gz
+Old backups cleaned (older than 7 days)
+Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260829_020001.tar.gz
+Old backups cleaned (older than 7 days)
+Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260830_020001.tar.gz
+Old backups cleaned (older than 7 days)
+Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260831_020001.tar.gz
+Old backups cleaned (older than 7 days)
+Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260901_020001.tar.gz
+Old backups cleaned (older than 7 days)
+Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260902_020001.tar.gz
+Old backups cleaned (older than 7 days)
+Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260903_020001.tar.gz
+Old backups cleaned (older than 7 days)
+Backup created: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260904_020001.tar.gz
+Old backups cleaned (older than 7 days)
+
+gzip: stdout: No space left on device
+tar: /home/zhinoadmin/train/Docker/backups/registry/registry_backup_20260905_020001.tar.gz: Wrote only 4096 of 10240 bytes
+tar: Child returned status 1
+tar: Error is not recoverable: exiting now

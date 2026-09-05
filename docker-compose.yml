@@ -39,22 +39,6 @@ services:
     ports:
       - "127.0.0.1:9200:9200"
 
-  nginx:
-    image: nginx:alpine
-    container_name: registry-nginx
-    restart: unless-stopped
-    ports:
-      - "443:443"
-      - "80:80"
-    volumes:
-      - ./nginx/registry.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./nginx/certs:/etc/nginx/certs:ro
-    depends_on:
-      - registry
-      - registry-ui
-      - elasticsearch
-      - kibana
-
   kibana:
     image: registry.local:443/kibana:8.15.0
     container_name: kibana
@@ -117,3 +101,115 @@ services:
     depends_on:
       - elasticsearch
       - kibana
+
+  wp-db:
+    image: registry.local:443/mysql:8.0
+    container_name: wp-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - ./wordpress/db-data:/var/lib/mysql
+    networks:
+      - db-net
+
+  wordpress:
+    image: registry.local:443/wordpress:6-fpm-alpine
+    container_name: wp-app
+    restart: unless-stopped
+    environment:
+      - WORDPRESS_DB_HOST=wp-db
+      - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
+      - WORDPRESS_DB_USER=${MYSQL_USER}
+      - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - ./wordpress/wp-data:/var/www/html
+    depends_on:
+      - wp-db
+    networks:
+      - db-net
+      - app-net
+
+  nginx:
+    image: registry.local:443/unified-nginx:1.0
+    container_name: unified-nginx
+    restart: unless-stopped
+    ports:
+      - "443:443"
+      - "80:80"
+    depends_on:
+      - registry
+      - registry-ui
+      - elasticsearch
+      - kibana
+      - wordpress
+      - vote
+      - result
+    networks:
+      - default
+      - app-net
+      - vote-front-net
+
+  vote:
+    image: registry.local:443/vote-app-vote:1.0
+    container_name: vote-app
+    restart: unless-stopped
+    depends_on:
+      - redis
+    networks:
+      - vote-front-net
+      - vote-back-net
+
+  result:
+    image: registry.local:443/vote-app-result:1.0
+    container_name: result-app
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - vote-front-net
+      - vote-back-net
+
+  worker:
+    image: registry.local:443/vote-app-worker:1.0
+    container_name: worker-app
+    restart: unless-stopped
+    depends_on:
+      - redis
+      - db
+    networks:
+      - vote-back-net
+
+  redis:
+    image: registry.local:443/redis:alpine
+    container_name: vote-redis
+    restart: unless-stopped
+    networks:
+      - vote-back-net
+
+  db:
+    image: registry.local:443/postgres:15-alpine
+    container_name: vote-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./vote-app/db-data:/var/lib/postgresql/data
+    networks:
+      - vote-back-net
+
+networks:
+  db-net:
+    driver: bridge
+  app-net:
+    driver: bridge
+  vote-front-net:
+    driver: bridge
+  vote-back-net:
+    driver: bridge
+
+volumes: {}

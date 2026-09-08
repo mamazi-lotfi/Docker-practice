@@ -11,5 +11,5 @@ nginx/certs/*.crt
 # ===== فایل‌های سیستمی/موقت =====
 *.log
 .DS_Store
-backups/vote-app/db-data/
+vote-app/db-data/
 wordpress/db-data/

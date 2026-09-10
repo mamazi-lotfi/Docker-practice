@@ -7,9 +7,15 @@ elk/elastic-data/
 auth/htpasswd.txt
 nginx/certs/*.key
 nginx/certs/*.crt
+nginx-unified/certs/*.key
+nginx-unified/certs/*.crt
+wordpress/nginx/certs/*.key
+
+# ===== داده‌ی runtime سرویس‌ها =====
+vote-app/db-data/
+wordpress/db-data/
+portainer-data/
 
 # ===== فایل‌های سیستمی/موقت =====
 *.log
 .DS_Store
-vote-app/db-data/
-wordpress/db-data/
